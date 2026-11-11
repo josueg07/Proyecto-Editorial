@@ -1,0 +1,4 @@
+@model PresentacionEdicion
+@{ ViewData["Title"]="Eliminar presentación"; }
+<h1>Eliminar presentación</h1><p>ISBN: @Model.Isbn · Q @Model.Precio.ToString("N2")</p><p>Solo se permite eliminar si no está relacionada con carritos o pedidos. La tabla no tiene campo de eliminación lógica.</p>
+<form method="post"><div asp-validation-summary="All" class="text-danger"></div><button class="btn btn-danger">Confirmar eliminación</button> <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a></form>

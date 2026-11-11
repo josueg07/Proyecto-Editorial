@@ -1,0 +1,6 @@
+@model ReferenciaFormulario
+@{ ViewData["Title"]=$"{(Model.Datos.Id==0?"Crear":"Editar")} · {Model.Tipo}"; }
+<h1>@ViewData["Title"]</h1>
+@await Html.PartialAsync("~/Views/Referencias/_Formulario.cshtml", Model.Datos, new ViewDataDictionary(ViewData) { ["Tipo"] = Model.Tipo })
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

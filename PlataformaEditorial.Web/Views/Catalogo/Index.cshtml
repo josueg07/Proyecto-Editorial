@@ -1,0 +1,22 @@
+@model CatalogoPagina
+@{ ViewData["Title"]="Catálogo bibliográfico"; }
+<h1>@ViewData["Title"]</h1>
+<form method="get" asp-action="Index" class="row g-3 mb-4">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="col-md-6"><label for="Texto" class="form-label">Título, autor, ISBN o editorial</label><input id="Texto" name="Texto" value="@Model.Filtro.Texto" maxlength="200" class="form-control" /></div>
+    <div class="col-md-3"><label for="CategoriaId" class="form-label">Categoría</label><select id="CategoriaId" name="CategoriaId" class="form-select" asp-items="@(new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Model.Categorias,"Id","Nombre",Model.Filtro.CategoriaId))"><option value="">Todas</option></select></div>
+    <div class="col-md-3"><label for="FormatoId" class="form-label">Formato</label><select id="FormatoId" name="FormatoId" class="form-select" asp-items="@(new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Model.Formatos,"Id","Nombre",Model.Filtro.FormatoId))"><option value="">Todos</option></select></div>
+    <div class="col-md-3"><label for="PrecioMinimo" class="form-label">Precio mínimo (Q)</label><input id="PrecioMinimo" name="PrecioMinimo" value="@(Model.Filtro.PrecioMinimo?.ToString(System.Globalization.CultureInfo.InvariantCulture))" class="form-control" type="number" min="0" step="0.01" /></div>
+    <div class="col-md-3"><label for="PrecioMaximo" class="form-label">Precio máximo (Q)</label><input id="PrecioMaximo" name="PrecioMaximo" value="@(Model.Filtro.PrecioMaximo?.ToString(System.Globalization.CultureInfo.InvariantCulture))" class="form-control" type="number" min="0" step="0.01" /></div>
+    <div class="col-md-6 d-flex align-items-end gap-2"><button class="btn btn-primary">Buscar</button><a class="btn btn-outline-secondary" asp-action="Index">Limpiar</a></div>
+</form>
+<p>@Model.Total resultado(s)</p>
+<partial name="_TarjetasLibros" model="Model.Libros" />
+@if(Model.Paginas>1)
+{
+    <nav aria-label="Páginas del catálogo" class="d-flex gap-3 align-items-center">
+        @if(Model.Filtro.Pagina>1) { <a asp-action="Index" asp-route-Texto="@Model.Filtro.Texto" asp-route-CategoriaId="@Model.Filtro.CategoriaId" asp-route-FormatoId="@Model.Filtro.FormatoId" asp-route-PrecioMinimo="@Model.Filtro.PrecioMinimo" asp-route-PrecioMaximo="@Model.Filtro.PrecioMaximo" asp-route-Pagina="@(Model.Filtro.Pagina-1)">Anterior</a> }
+        <span>Página @Model.Filtro.Pagina de @Model.Paginas</span>
+        @if(Model.Filtro.Pagina<Model.Paginas) { <a asp-action="Index" asp-route-Texto="@Model.Filtro.Texto" asp-route-CategoriaId="@Model.Filtro.CategoriaId" asp-route-FormatoId="@Model.Filtro.FormatoId" asp-route-PrecioMinimo="@Model.Filtro.PrecioMinimo" asp-route-PrecioMaximo="@Model.Filtro.PrecioMaximo" asp-route-Pagina="@(Model.Filtro.Pagina+1)">Siguiente</a> }
+    </nav>
+}

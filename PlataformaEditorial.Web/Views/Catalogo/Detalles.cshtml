@@ -1,0 +1,24 @@
+@model tblLibro
+@{ ViewData["Title"]=Model.Titulo; }
+<a asp-action="Index">Volver al catálogo</a>
+<div class="row mt-3 g-4">
+    <div class="col-md-4"><img class="img-fluid portada-detalle" src="@Model.portadaURL" alt="Portada de @Model.Titulo" /></div>
+    <div class="col-md-8">
+        <h1>@Model.Titulo</h1>
+        <dl class="row">
+            <dt class="col-sm-3">Autores</dt><dd class="col-sm-9">@string.Join(", ",Model.IDAutors.Select(a=>a.NombreAutor))</dd>
+            <dt class="col-sm-3">Editorial</dt><dd class="col-sm-9">@Model.IDEditorialNavigation.NombreEditorial</dd>
+            <dt class="col-sm-3">Año de edición</dt><dd class="col-sm-9">@Model.AnioEdicion</dd>
+            <dt class="col-sm-3">Categorías</dt><dd class="col-sm-9">@string.Join(", ",Model.IDCategoria.Select(c=>c.NombreCategoria))</dd>
+        </dl>
+        <h2 class="h4">Sinopsis</h2><p class="sinopsis">@Model.Sinopsis</p>
+    </div>
+</div>
+<h2 class="h4 mt-4">Presentaciones disponibles</h2>
+@if(Model.tblPresentacionLibros.Count==0) { <p class="alert alert-info">Sin presentaciones registradas.</p> }
+else
+{
+    <div class="table-responsive"><table class="table"><thead><tr><th>Formato</th><th>ISBN</th><th>Precio base</th><th>Existencias</th></tr></thead><tbody>
+    @foreach(var p in Model.tblPresentacionLibros) { <tr><td>@p.IDFormatoNavigation.NombreFormato @(p.IDFormatoNavigation.EsDigital?"(digital)":"")</td><td>@p.isbn</td><td>Q @p.PrecioBase.ToString("N2")</td><td>@(p.Existencias.HasValue?p.Existencias.Value.ToString():"Sin dato")</td></tr> }
+    </tbody></table></div>
+}

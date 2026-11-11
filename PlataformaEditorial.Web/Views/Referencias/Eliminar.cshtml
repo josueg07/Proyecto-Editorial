@@ -1,0 +1,6 @@
+@model ReferenciaFormulario
+@{ var logica=Model.Tipo is TipoReferencia.Autores or TipoReferencia.Categorias; ViewData["Title"]=logica?"Desactivar registro":"Eliminar registro"; }
+<h1>@ViewData["Title"]</h1>
+<p>@Model.Datos.Nombre</p>
+<p>@(logica?"El registro se conservará como inactivo. Puede reactivarlo desde Editar.":"Solo se permite eliminar este registro si no tiene relaciones.")</p>
+<form method="post"><div asp-validation-summary="All" class="text-danger"></div><button class="btn btn-danger">Confirmar</button> <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a></form>

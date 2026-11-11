@@ -4,11 +4,11 @@ using PlataformaEditorial.Web.Models;
 
 namespace PlataformaEditorial.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController(PlataformaEditorial.Web.Models.Servicios.CatalogoService catalogo) : Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        return View(await catalogo.InicioAsync());
     }
 
     public IActionResult Privacy()

@@ -1,8 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@model InicioCatalogo
+@{ ViewData["Title"]="Inicio"; }
+<div class="p-4 bg-light rounded mb-4"><h1>Plataforma Editorial</h1><p>Explora nuestro catálogo bibliográfico por autor, categoría y formato.</p><a class="btn btn-primary" asp-controller="Catalogo" asp-action="Index">Explorar catálogo</a></div>
+<h2>Libros destacados</h2>
+<partial name="_TarjetasLibros" model="Model.Destacados" />
+<h2>Novedades del catálogo</h2>
+<p class="text-muted">Últimos libros incorporados, ordenados por fecha de registro.</p>
+<partial name="_TarjetasLibros" model="Model.Novedades" />

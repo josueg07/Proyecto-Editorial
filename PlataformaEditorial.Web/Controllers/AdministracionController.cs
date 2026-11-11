@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 namespace PlataformaEditorial.Web.Controllers
@@ -8,7 +8,7 @@ namespace PlataformaEditorial.Web.Controllers
     {
         public IActionResult Index()
         {
-            return Content("Bienvenido al panel de administración.");
+            return View();
         }
     }
 }

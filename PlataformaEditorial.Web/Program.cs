@@ -9,6 +9,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddDbContext<PlataformaEditorial.Web.Data.Negocio.EditorialDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.CatalogoService>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.LibrosService>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.ReferenciasService>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.PresentacionesService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
@@ -76,3 +81,6 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.Run();
+
+// Permite hospedar la aplicación real en las pruebas de integración.
+public partial class Program { }

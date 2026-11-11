@@ -1,0 +1,4 @@
+@model LibroEdicion
+@{ ViewData["Title"]="Desactivar libro"; }
+<h1>Desactivar libro</h1><p>@Model.Titulo</p><p>Se conservarán el libro y sus relaciones, y dejará de aparecer en el catálogo público. Puede reactivarlo desde Editar.</p>
+<form method="post"><div asp-validation-summary="All" class="text-danger"></div><button class="btn btn-danger">Confirmar desactivación</button> <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a></form>

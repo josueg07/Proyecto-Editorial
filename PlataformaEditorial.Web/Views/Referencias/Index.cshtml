@@ -1,0 +1,8 @@
+@model ReferenciasPagina
+@{ ViewData["Title"]=Model.Tipo.ToString(); }
+<h1>@ViewData["Title"]</h1>
+<p><a asp-controller="Administracion" asp-action="Index">Administración</a> · <a asp-action="Crear" class="btn btn-primary">Crear registro</a></p>
+<div class="table-responsive"><table class="table"><thead><tr><th>Nombre</th><th>Estado / tipo</th><th>Acciones</th></tr></thead><tbody>
+@foreach(var f in Model.Filas) { <tr><td>@f.Nombre</td><td>@(f.Activo.HasValue?(f.Activo.Value?"Activo":"Inactivo"):f.EsDigital.HasValue?(f.EsDigital.Value?"Digital":"Físico"):"—")</td><td><a asp-action="Editar" asp-route-id="@f.Id">Editar</a> · <a asp-action="Eliminar" asp-route-id="@f.Id">@(f.Activo.HasValue?"Desactivar":"Eliminar")</a></td></tr> }
+</tbody></table></div>
+@if(Model.Filas.Count==0) { <p>No hay registros.</p> }

@@ -1,0 +1,13 @@
+@model PresentacionEdicion
+@{ ViewData["Title"]=Model.Id==0?"Crear presentación":"Editar presentación"; }
+<h1>@ViewData["Title"]</h1>
+<form method="post" class="formulario-catalogo">
+    <div asp-validation-summary="All" class="text-danger"></div><input type="hidden" asp-for="Id" />
+    <div class="mb-3"><label asp-for="LibroId" class="form-label"></label><select asp-for="LibroId" asp-items="Model.Libros" class="form-select"><option value="">Seleccione un libro</option></select><span asp-validation-for="LibroId" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="FormatoId" class="form-label"></label><select asp-for="FormatoId" asp-items="Model.Formatos" class="form-select"><option value="">Seleccione un formato</option></select><span asp-validation-for="FormatoId" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Isbn" class="form-label"></label><input asp-for="Isbn" class="form-control" /><span asp-validation-for="Isbn" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Precio" class="form-label"></label><input asp-for="Precio" type="number" min="0" step="0.01" class="form-control" /><span asp-validation-for="Precio" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Existencias" class="form-label"></label><input asp-for="Existencias" class="form-control" /><span asp-validation-for="Existencias" class="text-danger"></span></div>
+    <button class="btn btn-primary">Guardar</button> <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

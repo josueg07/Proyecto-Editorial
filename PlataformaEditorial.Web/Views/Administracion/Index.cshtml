@@ -1,0 +1,11 @@
+@{ ViewData["Title"]="Administración del catálogo"; }
+<h1>@ViewData["Title"]</h1>
+<p>Gestiona los datos bibliográficos y sus presentaciones.</p>
+<div class="list-group">
+    <a class="list-group-item list-group-item-action" asp-controller="Libros" asp-action="Index">Libros</a>
+    <a class="list-group-item list-group-item-action" asp-controller="Autores" asp-action="Index">Autores</a>
+    <a class="list-group-item list-group-item-action" asp-controller="Categorias" asp-action="Index">Categorías</a>
+    <a class="list-group-item list-group-item-action" asp-controller="Editoriales" asp-action="Index">Editoriales</a>
+    <a class="list-group-item list-group-item-action" asp-controller="Formatos" asp-action="Index">Formatos</a>
+    <a class="list-group-item list-group-item-action" asp-controller="Presentaciones" asp-action="Index">Presentaciones de libros</a>
+</div>
