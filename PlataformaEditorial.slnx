@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="PlataformaEditorial.Tests/PlataformaEditorial.Tests.csproj" />
   <Project Path="PlataformaEditorial.Web/PlataformaEditorial.Web.csproj" />
 </Solution>
