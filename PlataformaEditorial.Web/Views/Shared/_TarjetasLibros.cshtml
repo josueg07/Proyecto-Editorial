@@ -10,7 +10,7 @@
             <p>@(string.IsNullOrEmpty(libro.Autores)?"Sin autores activos registrados":libro.Autores)</p>
             <p class="text-muted">@libro.Editorial</p>
             <p>@libro.Formatos</p>
-            <p class="fw-bold mt-auto">@(libro.Precio.HasValue ? $"Desde Q {libro.Precio.Value:N2}" : "Sin presentaciones registradas")</p>
+            <p class="fw-bold mt-auto">@(libro.Precio.HasValue ? $"Desde Q {libro.Precio.Value:N2} (antes de IVA)" : "Sin presentaciones registradas")</p>
         </div>
     </article></div>
 }

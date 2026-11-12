@@ -18,7 +18,7 @@
 @if(Model.tblPresentacionLibros.Count==0) { <p class="alert alert-info">Sin presentaciones registradas.</p> }
 else
 {
-    <div class="table-responsive"><table class="table"><thead><tr><th>Formato</th><th>ISBN</th><th>Precio base</th><th>Existencias</th></tr></thead><tbody>
+    <div class="table-responsive"><table class="table"><thead><tr><th>Formato</th><th>ISBN</th><th>Precio base (antes de IVA)</th><th>Existencias</th></tr></thead><tbody>
     @foreach(var p in Model.tblPresentacionLibros) { <tr><td>@p.IDFormatoNavigation.NombreFormato @(p.IDFormatoNavigation.EsDigital?"(digital)":"")</td><td>@p.isbn</td><td>Q @p.PrecioBase.ToString("N2")</td><td>@(p.Existencias.HasValue?p.Existencias.Value.ToString():"Sin dato")</td></tr> }
     </tbody></table></div>
 }
