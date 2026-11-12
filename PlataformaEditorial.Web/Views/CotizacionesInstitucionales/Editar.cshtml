@@ -1,0 +1,27 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model CotizacionEdicionVista
+@{ ViewData["Title"]="Preparar cotización"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>Preparar cotización · SOL-@Model.SolicitudId.ToString("D6")</h1><p>@Model.Institucion</p>
+@if(Model.AvisoImpuesto!=null) { <p class="alert alert-warning">@Model.AvisoImpuesto</p> }
+else { <p>IVA configurado: @Model.PorcentajeImpuesto%. Se volverá a consultar al guardar o emitir.</p> }
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3 col-md-4"><label asp-for="Datos.FechaVencimiento" class="form-label"></label><input asp-for="Datos.FechaVencimiento" type="date" class="form-control" /></div>
+    @for(var i=0;i<Model.Datos.Detalles.Count;i++)
+    {
+        <fieldset class="border rounded p-3 mb-3"><legend class="float-none w-auto px-2 h5">Detalle @(i+1)</legend>
+        <input type="hidden" asp-for="Datos.Detalles[i].DetalleSolicitudId" />
+        <div class="row g-3"><div class="col-md-7"><label asp-for="Datos.Detalles[i].Descripcion" class="form-label"></label><input asp-for="Datos.Detalles[i].Descripcion" class="form-control" /></div>
+        <div class="col-md-2"><label asp-for="Datos.Detalles[i].Cantidad" class="form-label"></label><input asp-for="Datos.Detalles[i].Cantidad" class="form-control" /></div>
+        <div class="col-md-3"><label asp-for="Datos.Detalles[i].PrecioUnitario" class="form-label"></label><input asp-for="Datos.Detalles[i].PrecioUnitario" type="number" min="0" max="99999999.99" step="0.01" class="form-control" /></div></div>
+        </fieldset>
+    }
+    <div class="mb-3"><label asp-for="Datos.Observaciones" class="form-label"></label><textarea asp-for="Datos.Observaciones" class="form-control" rows="3"></textarea></div>
+    <div class="mb-3 col-md-4"><label asp-for="Datos.Descuento" class="form-label"></label><input asp-for="Datos.Descuento" type="number" min="0" step="0.01" class="form-control" /><small>Importe fijo antes de IVA; no puede superar el subtotal.</small></div>
+    <p>Guardar conserva un borrador interno. Emitir fija los importes y habilita la respuesta del cliente; después no podrá editarse. El impuesto se calcula sobre el subtotal menos el descuento comercial.</p>
+    <button class="btn btn-outline-primary" name="operacion" value="borrador">Guardar borrador</button>
+    <button class="btn btn-primary" name="operacion" value="emitir">Emitir cotización</button>
+    <a class="btn btn-outline-secondary" asp-controller="SolicitudesInstitucionales" asp-action="Detalles" asp-route-id="@Model.SolicitudId">Volver</a>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

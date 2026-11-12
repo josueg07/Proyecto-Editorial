@@ -1,0 +1,20 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model List<PerfilInstitucionalVista>
+@{ ViewData["Title"]="Validación de perfiles institucionales"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>@ViewData["Title"]</h1>
+<p>La aprobación asigna el rol institucional desde el servidor. Los perfiles aprobados quedan cerrados a edición para conservar sus datos.</p>
+@if(Model.Count==0) { <p class="alert alert-info">No hay perfiles solicitados.</p> }
+<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Institución</th><th>NIT</th><th>Dirección</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+@foreach(var p in Model)
+{
+    <tr><td>@p.NombreInstitucion</td><td>@p.NIT</td><td>@p.Direccion</td><td>@p.Estado</td><td>
+    @if(p.Estado==EstadosRf04.Pendiente)
+    {
+        <form method="post" asp-action="Aprobar" class="d-inline"><input type="hidden" name="usuarioId" value="@p.UsuarioId" /><button class="btn btn-success btn-sm">Aprobar perfil</button></form>
+        <form method="post" asp-action="Rechazar" class="d-inline"><input type="hidden" name="usuarioId" value="@p.UsuarioId" /><button class="btn btn-outline-danger btn-sm">Rechazar perfil</button></form>
+    }
+    else { <span>@p.FechaValidacion?.ToString("dd/MM/yyyy HH:mm")</span> }
+    </td></tr>
+}
+</tbody></table></div>

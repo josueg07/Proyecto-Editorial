@@ -1,0 +1,14 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model PerfilInstitucionalEntrada
+@{ ViewData["Title"]="Solicitar perfil institucional"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>Solicitar perfil institucional</h1>
+<p>El envío no concede permisos institucionales. El administrador debe aprobar los datos.</p>
+<form method="post" class="col-lg-8">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3"><label asp-for="NombreInstitucion" class="form-label"></label><input asp-for="NombreInstitucion" class="form-control" /><span asp-validation-for="NombreInstitucion" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="NIT" class="form-label"></label><input asp-for="NIT" class="form-control" /><span asp-validation-for="NIT" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Direccion" class="form-label"></label><textarea asp-for="Direccion" class="form-control" rows="3"></textarea><span asp-validation-for="Direccion" class="text-danger"></span></div>
+    <button class="btn btn-primary">Enviar a validación</button> <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,10 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model AsignacionVista
+@{ ViewData["Title"]="Asignar asesor"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>Asignar asesor a SOL-@Model.SolicitudId.ToString("D6")</h1>
+<form method="post" class="col-md-6"><div asp-validation-summary="All" class="text-danger"></div>
+<label asp-for="Datos.AsesorId" class="form-label"></label><select asp-for="Datos.AsesorId" asp-items="Model.Asesores" class="form-select mb-3"><option value="">Seleccione un asesor</option></select>
+@if(Model.Asesores.Count==0) { <p class="alert alert-warning">No existen usuarios con el rol AsesorVentas. Un administrador debe habilitar uno en Identity.</p> }
+<button class="btn btn-primary">Guardar asignación</button> <a asp-action="Detalles" asp-route-id="@Model.SolicitudId">Cancelar</a></form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

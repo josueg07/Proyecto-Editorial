@@ -1,0 +1,7 @@
+@using PlataformaEditorial.Web.Models.Institucional
+<nav class="d-flex flex-wrap gap-3 mb-4 border-bottom pb-3" aria-label="Módulo institucional">
+    <a asp-controller="Institucional" asp-action="Index">Portal institucional</a>
+    @if(User.IsInRole("Administrador")) { <a asp-controller="PerfilesInstitucionales" asp-action="Index">Validar perfiles</a> }
+    @if(User.IsInRole("ClienteInstitucional") || User.IsInRole("AsesorVentas") || User.IsInRole("Administrador")) { <a asp-controller="SolicitudesInstitucionales" asp-action="Index">@(User.IsInRole("ClienteInstitucional")?"Mis solicitudes":"Bandeja comercial")</a> }
+    @if(User.IsInRole("ClienteMinorista") || User.IsInRole("ClienteInstitucional")) { <a asp-controller="PerfilInstitucional" asp-action="Index">Mi perfil institucional</a> }
+</nav>

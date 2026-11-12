@@ -1,0 +1,13 @@
+body { color: #212529; background: #f3f4f6; }
+.documento-cotizacion { max-width: 1000px; margin: 24px auto; background: white; padding: 36px; }
+.marca-editorial { color: #153e75; font-size: 1.4rem; font-weight: bold; }
+h1 { font-size: 1.6rem; }
+.totales { width: 300px; text-align: right; }
+@media print {
+    @page { size: A4; margin: 15mm; }
+    body { background: white; font-size: 10pt; }
+    .documento-cotizacion { margin: 0; padding: 0; max-width: none; }
+    thead { display: table-header-group; }
+    tr, .totales { break-inside: avoid; }
+    .bg-light { background: #f8f9fa !important; }
+}

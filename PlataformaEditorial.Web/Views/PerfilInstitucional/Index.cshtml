@@ -1,0 +1,20 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model PerfilInstitucionalVista
+@{ ViewData["Title"]="Mi perfil institucional"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>Mi perfil institucional</h1>
+@if(Model==null)
+{
+    <p>No has solicitado un perfil institucional.</p><a class="btn btn-primary" asp-action="Solicitar">Solicitar validación</a>
+}
+else
+{
+    <dl class="row"><dt class="col-sm-3">Institución</dt><dd class="col-sm-9">@Model.NombreInstitucion</dd><dt class="col-sm-3">NIT</dt><dd class="col-sm-9">@Model.NIT</dd><dt class="col-sm-3">Dirección</dt><dd class="col-sm-9">@Model.Direccion</dd><dt class="col-sm-3">Estado</dt><dd class="col-sm-9">@Model.Estado</dd><dt class="col-sm-3">Fecha de validación</dt><dd class="col-sm-9">@(Model.FechaValidacion?.ToString("dd/MM/yyyy HH:mm")??"Pendiente")</dd></dl>
+    @if(Model.Estado==EstadosRf04.Pendiente) { <p class="alert alert-info">El administrador debe revisar tu solicitud.</p> }
+    @if(Model.Estado==EstadosRf04.Rechazado) { <p>El perfil fue rechazado. Revisa tus datos y vuelve a enviarlos.</p><a class="btn btn-primary" asp-action="Solicitar">Corregir y reenviar</a> }
+    @if(Model.Estado==EstadosRf04.Aprobado)
+    {
+        @if(User.IsInRole("ClienteInstitucional")) { <a class="btn btn-primary" asp-controller="SolicitudesInstitucionales" asp-action="Nueva">Solicitar cotización</a> }
+        else { <p class="alert alert-info">Perfil aprobado. Cierra sesión y vuelve a entrar para cargar tu nuevo rol institucional.</p> }
+    }
+}

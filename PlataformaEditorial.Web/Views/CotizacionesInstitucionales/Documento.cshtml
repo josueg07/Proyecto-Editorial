@@ -1,0 +1,16 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model DocumentoCotizacion
+@{ Layout=null; var s=Model.Solicitud;var c=Model.Cotizacion; }
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>Cotización COT-@c.Id.ToString("D6")</title><link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /><link rel="stylesheet" href="~/css/cotizacion-institucional.css" asp-append-version="true" /></head><body>
+<div class="container documento-cotizacion">
+    <nav class="d-print-none d-flex gap-3 mb-4"><a asp-controller="SolicitudesInstitucionales" asp-action="Detalles" asp-route-id="@s.Id">Volver a la solicitud</a><button type="button" class="btn btn-primary btn-sm" id="imprimir-cotizacion">Imprimir</button><a class="btn btn-outline-primary btn-sm" asp-action="Pdf" asp-route-id="@s.Id">Descargar PDF</a></nav>
+    <header class="border-bottom pb-3 mb-4"><p class="marca-editorial">PLATAFORMA EDITORIAL</p><h1>Cotización institucional COT-@c.Id.ToString("D6")</h1><p>Solicitud SOL-@s.Id.ToString("D6") · Estado: @c.Estado @(c.Vencida?"(vencida)":"")</p></header>
+    @if(c.Estado==EstadosRf04.Borrador) { <p class="alert alert-warning">BORRADOR — SIN VALIDEZ COMERCIAL. Los impuestos e importes son provisionales.</p> }
+    <section class="bg-light p-3 mb-4"><h2 class="h5">@s.Institucion.NombreInstitucion</h2><p>NIT: @s.Institucion.NIT<br />Dirección: @s.Institucion.Direccion<br />Asesor: @s.Asesor</p></section>
+    <p>Emisión: @c.FechaEmision.ToString("dd/MM/yyyy") · Válida hasta: @c.FechaVencimiento.ToString("dd/MM/yyyy")<br />Fecha de entrega requerida: @s.FechaRequerida.ToString("dd/MM/yyyy")</p>
+    <table class="table"><thead><tr><th>Descripción / especificaciones</th><th class="text-end">Cantidad</th><th class="text-end">Precio unitario</th><th class="text-end">Importe</th></tr></thead><tbody>
+    @foreach(var d in c.Detalles) { <tr><td>@d.Descripcion<br /><small>@d.Especificaciones</small></td><td class="text-end">@d.Cantidad</td><td class="text-end text-nowrap">Q @d.PrecioUnitario.ToString("N2")</td><td class="text-end text-nowrap">Q @d.Importe.ToString("N2")</td></tr> }
+    </tbody></table>
+    <div class="totales ms-auto"><p>Subtotal: Q @c.Subtotal.ToString("N2")</p><p>Descuento: Q @c.Descuento.ToString("N2")</p><p>Base imponible: Q @((c.Subtotal-c.Descuento).ToString("N2"))</p><p>IVA: Q @c.Impuestos.ToString("N2")</p><p class="border-top pt-2 fw-bold fs-5">TOTAL: Q @c.Total.ToString("N2")</p></div>
+    <p style="white-space:pre-line">@c.Observaciones</p><footer class="border-top pt-3"><small>Importes expresados en quetzales. Esta cotización no constituye factura ni pedido.</small></footer>
+</div><script src="~/js/imprimir-cotizacion.js" asp-append-version="true"></script></body></html>

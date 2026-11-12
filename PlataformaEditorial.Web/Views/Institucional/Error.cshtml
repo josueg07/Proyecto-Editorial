@@ -1,0 +1,6 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model string
+@{ ViewData["Title"]="Operación no disponible"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>Operación no disponible</h1><p class="alert alert-warning">@Model</p>
+<a asp-controller="Institucional" asp-action="Index">Volver al portal institucional</a>

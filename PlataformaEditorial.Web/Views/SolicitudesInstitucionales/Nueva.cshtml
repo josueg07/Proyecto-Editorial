@@ -1,0 +1,26 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model SolicitudInstitucionalEntrada
+@{ ViewData["Title"]="Nueva solicitud de cotización"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>@ViewData["Title"]</h1>
+<form method="post" id="solicitud-institucional">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3 col-md-4"><label asp-for="FechaRequerida" class="form-label"></label><input asp-for="FechaRequerida" type="date" class="form-control" /><span asp-validation-for="FechaRequerida" class="text-danger"></span></div>
+    <h2 class="h4">Obras solicitadas</h2><p>Agrega de una a veinte obras. Una solicitud enviada se conserva sin edición.</p>
+    <div id="obras-solicitadas">
+    @for(var i=0;i<Model.Detalles.Count;i++)
+    {
+        <fieldset class="border rounded p-3 mb-3 obra-solicitada"><legend class="float-none w-auto px-2 h5">Obra @(i+1)</legend>
+            <div class="row g-3"><div class="col-md-9"><label asp-for="Detalles[i].Titulo" class="form-label"></label><input asp-for="Detalles[i].Titulo" class="form-control" /></div>
+            <div class="col-md-3"><label asp-for="Detalles[i].Cantidad" class="form-label"></label><input asp-for="Detalles[i].Cantidad" class="form-control" /></div>
+            <div class="col-md-6"><label asp-for="Detalles[i].AcabadoPortada" class="form-label"></label><input asp-for="Detalles[i].AcabadoPortada" class="form-control" /></div>
+            <div class="col-md-6"><label asp-for="Detalles[i].TipoPapel" class="form-label"></label><input asp-for="Detalles[i].TipoPapel" class="form-control" /></div></div>
+            <button type="button" class="btn btn-outline-danger btn-sm mt-3 quitar-obra">Quitar obra</button>
+        </fieldset>
+    }
+    </div>
+    <button type="button" id="agregar-obra" class="btn btn-outline-primary mb-3">Agregar otra obra</button><p id="aviso-obras" role="status"></p>
+    <div class="mb-3"><label asp-for="Observaciones" class="form-label"></label><textarea asp-for="Observaciones" class="form-control" rows="3"></textarea></div>
+    <button class="btn btn-primary">Enviar solicitud</button> <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /><script src="~/js/solicitudes-institucionales.js" asp-append-version="true"></script> }

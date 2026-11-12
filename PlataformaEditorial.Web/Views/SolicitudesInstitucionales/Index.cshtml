@@ -1,0 +1,10 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model List<SolicitudFila>
+@{ ViewData["Title"]=User.IsInRole("ClienteInstitucional")?"Mis solicitudes":"Bandeja comercial"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>@ViewData["Title"]</h1>
+@if(User.IsInRole("ClienteInstitucional")) { <p><a class="btn btn-primary" asp-action="Nueva">Nueva solicitud de cotización</a></p> }
+@if(Model.Count==0) { <p class="alert alert-info">No hay solicitudes disponibles para tu usuario.</p> }
+<div class="table-responsive"><table class="table"><thead><tr><th>Solicitud</th><th>Institución</th><th>Fecha requerida</th><th>Estado</th><th>Asesor</th><th></th></tr></thead><tbody>
+@foreach(var s in Model) { <tr><td>SOL-@s.Id.ToString("D6")<br /><small>@s.Fecha.ToString("dd/MM/yyyy")</small></td><td>@s.Institucion</td><td>@s.FechaRequerida.ToString("dd/MM/yyyy")</td><td>@s.Estado</td><td>@(s.Asesor??"Sin asignar")</td><td><a asp-action="Detalles" asp-route-id="@s.Id">Ver solicitud</a></td></tr> }
+</tbody></table></div>

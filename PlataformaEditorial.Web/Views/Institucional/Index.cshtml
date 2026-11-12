@@ -1,0 +1,23 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@{ ViewData["Title"]="Portal institucional"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>Solicitudes y cotizaciones institucionales</h1>
+<p>Solicita la validación de tu institución, presenta las obras requeridas y consulta la propuesta comercial.</p>
+@if(User.IsInRole("Administrador"))
+{
+    <p><a class="btn btn-primary" asp-controller="PerfilesInstitucionales" asp-action="Index">Validar perfiles institucionales</a></p>
+    <p><a class="btn btn-outline-primary" asp-controller="SolicitudesInstitucionales" asp-action="Index">Supervisar y asignar solicitudes</a></p>
+}
+else if(User.IsInRole("AsesorVentas"))
+{
+    <p><a class="btn btn-primary" asp-controller="SolicitudesInstitucionales" asp-action="Index">Ver solicitudes asignadas</a></p>
+}
+else if(User.IsInRole("ClienteInstitucional"))
+{
+    <p><a class="btn btn-primary" asp-controller="SolicitudesInstitucionales" asp-action="Index">Mis solicitudes y cotizaciones</a></p>
+}
+else
+{
+    <p>Para solicitar una cotización, primero debe aprobarse tu perfil institucional.</p>
+    <p><a class="btn btn-primary" asp-controller="PerfilInstitucional" asp-action="Index">Solicitar perfil institucional</a></p>
+}

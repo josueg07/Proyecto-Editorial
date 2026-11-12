@@ -1,0 +1,28 @@
+@using PlataformaEditorial.Web.Models.Institucional
+@model SolicitudDetalleVista
+@{ ViewData["Title"]=$"Solicitud SOL-{Model.Id:D6}"; }
+<partial name="~/Views/Institucional/_Menu.cshtml" />
+<h1>@ViewData["Title"]</h1>
+<dl class="row"><dt class="col-sm-3">Institución</dt><dd class="col-sm-9">@Model.Institucion.NombreInstitucion</dd><dt class="col-sm-3">Fecha de solicitud</dt><dd class="col-sm-9">@Model.Fecha.ToString("dd/MM/yyyy HH:mm")</dd><dt class="col-sm-3">Fecha requerida</dt><dd class="col-sm-9">@Model.FechaRequerida.ToString("dd/MM/yyyy")</dd><dt class="col-sm-3">Estado</dt><dd class="col-sm-9">@Model.Estado</dd><dt class="col-sm-3">Asesor</dt><dd class="col-sm-9">@(Model.Asesor??"Sin asignar")</dd></dl>
+<p style="white-space:pre-line">@Model.Observaciones</p>
+<div class="table-responsive"><table class="table"><thead><tr><th>Obra</th><th>Cantidad estimada</th><th>Acabado de portada</th><th>Tipo de papel</th></tr></thead><tbody>
+@foreach(var d in Model.Detalles) { <tr><td>@d.Titulo</td><td>@d.Cantidad</td><td>@d.AcabadoPortada</td><td>@d.TipoPapel</td></tr> }
+</tbody></table></div>
+<div class="d-flex flex-wrap gap-2 mb-4">
+@if(Model.PuedeAsignar) { <a class="btn btn-outline-primary" asp-action="Asignar" asp-route-id="@Model.Id">Asignar / reasignar asesor</a> }
+@if(Model.PuedeCotizar) { <a class="btn btn-primary" asp-controller="CotizacionesInstitucionales" asp-action="Editar" asp-route-id="@Model.Id">Preparar cotización</a> }
+</div>
+<h2 class="h4">Cotización</h2>
+@if(Model.Cotizacion is {} c)
+{
+    <p>COT-@c.Id.ToString("D6") · @c.Estado @(c.Vencida?"(vencida)":"") · Total: Q @c.Total.ToString("N2")</p>
+    @if(c.Estado==EstadosRf04.Borrador) { <p class="alert alert-warning">Borrador interno: importes provisionales. La emisión calcula y fija los impuestos desde la configuración.</p> }
+    <p><a class="btn btn-outline-primary" asp-controller="CotizacionesInstitucionales" asp-action="Documento" asp-route-id="@Model.Id">Ver documento / imprimir</a> <a class="btn btn-outline-secondary" asp-controller="CotizacionesInstitucionales" asp-action="Pdf" asp-route-id="@Model.Id">Descargar PDF</a></p>
+    @if(Model.PuedeResponder)
+    {
+        <p>La respuesta es definitiva. Revisa el documento antes de confirmar.</p>
+        <form method="post" asp-controller="CotizacionesInstitucionales" asp-action="Aprobar" asp-route-id="@Model.Id" class="d-inline"><button class="btn btn-success">Aprobar cotización</button></form>
+        <form method="post" asp-controller="CotizacionesInstitucionales" asp-action="Rechazar" asp-route-id="@Model.Id" class="d-inline"><button class="btn btn-outline-danger">Rechazar cotización</button></form>
+    }
+}
+else { <p>La propuesta comercial aún no ha sido emitida.</p> }
