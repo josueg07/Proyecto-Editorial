@@ -15,6 +15,18 @@ builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.LibrosServic
 builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.ReferenciasService>();
 builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.PresentacionesService>();
 
+// RF-04: servicios independientes del catálogo y de sus mantenimientos.
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Institucional.TiempoRf04>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.Institucional.UnidadRf04>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.Institucional.PerfilInstitucionalService>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.Institucional.SolicitudesInstitucionalesService>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.Institucional.CotizacionesInstitucionalesService>();
+builder.Services.AddSingleton<PlataformaEditorial.Web.Models.Servicios.Institucional.CotizacionPdfService>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.Institucional.IImpuestoInstitucional, PlataformaEditorial.Web.Models.Servicios.Institucional.ConfiguracionImpuestoService>();
+// Proyecto académico: licencia Community de QuestPDF.
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
