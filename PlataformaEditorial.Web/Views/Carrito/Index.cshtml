@@ -1,0 +1,28 @@
+@using PlataformaEditorial.Web.Models.Compras
+
+@model CarritoVista
+@{ViewData["Title"]="Mi carrito";}
+<h1>Mi carrito</h1><div asp-validation-summary="All" class="text-danger" role="alert"></div>
+@if(Model.Lineas.Count==0) { <p class="alert alert-info">Tu carrito está vacío.</p><a asp-controller="Catalogo" asp-action="Index" class="btn btn-primary">Explorar catálogo</a> }
+else
+{
+    @if(Model.Aviso!=null) { <p class="alert alert-warning">@Model.Aviso</p> }
+    <div class="table-responsive"><table class="table align-middle"><thead><tr><th>Libro / presentación</th><th>Precio sin IVA</th><th>Cantidad</th><th>Importe</th><th></th></tr></thead><tbody>
+    @foreach(var l in Model.Lineas)
+    {
+        <tr><td>@l.Titulo<br /><small>@l.Formato Â· ISBN @l.Isbn<br />@(l.Digital?"Presentación digital":$"Existencias físicas: {l.Existencias?.ToString()??"sin dato"}")</small></td><td>Q @l.Precio.ToString("N2")</td><td>
+        <form method="post" asp-action="Cambiar" asp-route-id="@l.Id" class="d-flex gap-2"><label class="visually-hidden" for="cantidad-@l.Id">Cantidad de @l.Titulo</label><input id="cantidad-@l.Id" name="cantidad" value="@l.Cantidad" type="number" min="1" max="100000" class="form-control" style="width:100px" /><button class="btn btn-outline-primary btn-sm">Actualizar</button></form></td><td>Q @l.Importe.ToString("N2")</td><td><form method="post" asp-action="Quitar" asp-route-id="@l.Id"><button class="btn btn-outline-danger btn-sm">Quitar</button></form></td></tr>
+    }
+    </tbody></table></div>
+    <form method="post" asp-action="Vaciar" class="mb-3"><button class="btn btn-outline-danger">Vaciar carrito</button></form>
+    @if(Model.Totales is {} t)
+    {
+        <div class="card mb-3"><div class="card-body"><h2 class="h4">Resumen de compra</h2>
+        <p>Unidades totales: @Model.Lineas.Sum(l=>(long)l.Cantidad). Descuentos por volumen: 1–5: 0 %; 6–20: 5 %; 21–50: 10 %; desde 51: 15 %.</p>
+        <dl class="row"><dt class="col-sm-6">Subtotal sin IVA</dt><dd class="col-sm-6">Q @t.SubtotalBase.ToString("N2")</dd><dt class="col-sm-6">Descuento por volumen</dt><dd class="col-sm-6">Q @t.DescuentoVolumen.ToString("N2")</dd><dt class="col-sm-6">Descuento institucional @(Model.Institucional?"(8 % adicional)":"")</dt><dd class="col-sm-6">Q @t.DescuentoInstitucional.ToString("N2")</dd><dt class="col-sm-6">IVA (@Model.IVA %), después de descuentos</dt><dd class="col-sm-6">Q @t.Impuestos.ToString("N2")</dd><dt class="col-sm-6">Total</dt><dd class="col-sm-6 fw-bold">Q @t.TotalFinal.ToString("N2")</dd></dl></div></div>
+        <form method="post" asp-action="Confirmar"><input type="hidden" name="Confirmacion" value="@Model.Confirmacion" />
+        @if(Model.RequiereDireccion) { <div class="mb-3"><label for="direccion" class="form-label">Dirección de entrega</label><textarea id="direccion" name="Direccion" required maxlength="255" class="form-control">@Model.Direccion</textarea></div> }
+        else { <p>Pedido digital: no requiere envío físico. La entrega del archivo debe coordinarse con la editorial.</p> }
+        <p>Esta confirmación registra el pedido; no procesa un pago electrónico. Revisa los importes antes de continuar.</p><button class="btn btn-success">Confirmar compra</button> <a asp-controller="Catalogo" asp-action="Index">Seguir comprando</a></form>
+    }
+}

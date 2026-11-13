@@ -1,0 +1,5 @@
+@using PlataformaEditorial.Web.Models.Compras
+
+@model string
+@{ViewData["Title"]="No se pudo completar la operación";}
+<h1>@ViewData["Title"]</h1><p class="alert alert-warning">@Model</p><a asp-controller="Carrito" asp-action="Index">Revisar carrito</a> · <a asp-controller="Catalogo" asp-action="Index">Volver al catálogo</a>

@@ -1,0 +1,14 @@
+@using PlataformaEditorial.Web.Models.Compras
+
+@model PedidoVista
+@{ViewData["Title"]=$"Pedido PED-{Model.Id:D6}";var t=Model.Totales;}
+<h1>@ViewData["Title"]</h1><p>Fecha: @Model.Fecha.ToString("dd/MM/yyyy HH:mm") · Estado: @Model.Estado</p><p>Entrega: @(Model.Direccion??"Sin envío físico (digital)")</p>
+<table class="table"><thead><tr><th>Libro / formato</th><th>Cantidad</th><th>Precio unitario sin IVA</th><th>Importe</th></tr></thead><tbody>
+@foreach(var l in Model.Lineas) { <tr><td>@l.Titulo · @l.Formato<br /><small>ISBN @l.Isbn</small></td><td>@l.Cantidad</td><td>Q @l.Precio.ToString("N2")</td><td>Q @l.Importe.ToString("N2")</td></tr> }
+</tbody></table>
+<p>Subtotal: Q @t.SubtotalBase.ToString("N2")<br />Descuento por volumen: Q @t.DescuentoVolumen.ToString("N2")<br />Descuento institucional: Q @t.DescuentoInstitucional.ToString("N2")<br />IVA (@Model.IVA %): Q @t.Impuestos.ToString("N2")<br /><strong>Total: Q @t.TotalFinal.ToString("N2")</strong></p>
+@if(Model.EstadosPermitidos.Count>0)
+{
+    <form method="post" asp-action="Estado" asp-route-id="@Model.Id"><label for="estado" class="form-label">Siguiente estado</label><select name="estado" id="estado" class="form-select mb-2">@foreach(var e in Model.EstadosPermitidos) { <option value="@e">@(e=="EnProceso"?"En proceso":e)</option> }</select><button class="btn btn-primary">Actualizar estado</button></form>
+}
+<a asp-action="Index">Volver a pedidos</a>
