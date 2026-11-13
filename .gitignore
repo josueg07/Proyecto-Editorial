@@ -3,3 +3,12 @@
 **/obj/
 **/*.user
 **/app.db*
+.env
+.env.*
+*.pfx
+*.publishsettings
+*.bak
+*.mdf
+*.ldf
+*.zip
+**/appsettings.Local.json
