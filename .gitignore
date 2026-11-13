@@ -12,3 +12,6 @@
 *.ldf
 *.zip
 **/appsettings.Local.json
+
+**/TestResults/
+*.trx

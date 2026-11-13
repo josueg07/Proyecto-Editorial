@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/tools/">
+    <Project Path="tools/PlataformaEditorial.Herramientas/PlataformaEditorial.Herramientas.csproj" />
+  </Folder>
   <Project Path="PlataformaEditorial.Tests/PlataformaEditorial.Tests.csproj" />
   <Project Path="PlataformaEditorial.Web/PlataformaEditorial.Web.csproj" />
 </Solution>
