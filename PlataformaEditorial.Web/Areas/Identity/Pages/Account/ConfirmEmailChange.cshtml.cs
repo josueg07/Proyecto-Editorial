@@ -40,14 +40,14 @@ public class ConfirmEmailChangeModel : PageModel
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
-            return NotFound($"Unable to load user with ID '{userId}'.");
+            return NotFound("No se pudo encontrar la cuenta.");
         }
 
         code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
         var result = await _userManager.ChangeEmailAsync(user, email, code);
         if (!result.Succeeded)
         {
-            StatusMessage = "Error changing email.";
+            StatusMessage = "No se pudo cambiar el correo electrónico.";
             return Page();
         }
 
@@ -56,12 +56,12 @@ public class ConfirmEmailChangeModel : PageModel
         var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
         if (!setUserNameResult.Succeeded)
         {
-            StatusMessage = "Error changing user name.";
+            StatusMessage = "No se pudo cambiar el nombre de usuario.";
             return Page();
         }
 
         await _signInManager.RefreshSignInAsync(user);
-        StatusMessage = "Thank you for confirming your email change.";
+        StatusMessage = "El cambio de correo electrónico quedó confirmado.";
         return Page();
     }
 }

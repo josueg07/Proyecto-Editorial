@@ -101,13 +101,13 @@ public class ExternalLoginModel : PageModel
         returnUrl = returnUrl ?? Url.Content("~/");
         if (remoteError != null)
         {
-            ErrorMessage = $"Error from external provider: {remoteError}";
+            ErrorMessage = "No se pudo completar el acceso con el proveedor externo.";
             return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
         }
         var info = await _signInManager.GetExternalLoginInfoAsync();
         if (info == null)
         {
-            ErrorMessage = "Error loading external login information.";
+            ErrorMessage = "No se pudo cargar la información del acceso externo.";
             return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
         }
 
@@ -145,7 +145,7 @@ public class ExternalLoginModel : PageModel
         var info = await _signInManager.GetExternalLoginInfoAsync();
         if (info == null)
         {
-            ErrorMessage = "Error loading external login information during confirmation.";
+            ErrorMessage = "No se pudo confirmar el acceso externo.";
             return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
         }
 
@@ -173,8 +173,7 @@ public class ExternalLoginModel : PageModel
                         values: new { area = "Identity", userId = userId, code = code },
                         protocol: Request.Scheme)!;
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    // Correo no configurado: la cuenta queda pendiente de confirmación administrativa local.
 
                     // If account confirmation is required, we need to show the link if we don't have a real email sender
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

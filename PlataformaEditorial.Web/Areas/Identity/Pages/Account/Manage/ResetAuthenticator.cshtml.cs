@@ -39,7 +39,7 @@ public class ResetAuthenticatorModel : PageModel
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
-            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            return NotFound("No se pudo encontrar la cuenta.");
         }
 
         return Page();
@@ -50,7 +50,7 @@ public class ResetAuthenticatorModel : PageModel
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
-            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            return NotFound("No se pudo encontrar la cuenta.");
         }
 
         await _userManager.SetTwoFactorEnabledAsync(user, false);
@@ -59,7 +59,7 @@ public class ResetAuthenticatorModel : PageModel
         _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
 
         await _signInManager.RefreshSignInAsync(user);
-        StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
+        StatusMessage = "Se restableció la clave. Configura la aplicación con la clave nueva.";
 
         return RedirectToPage("./EnableAuthenticator");
     }

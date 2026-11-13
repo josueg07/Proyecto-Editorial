@@ -1,0 +1,3 @@
+@model int
+@{ ViewData["Title"]=Model==404?"Página no encontrada":Model==403?"Acceso denegado":"No se pudo completar la solicitud"; }
+<h1>@ViewData["Title"]</h1><p>@(Model==404?"La página o el registro solicitado no existe o no está disponible para tu usuario.":Model==403?"Tu cuenta no tiene permiso para realizar esta operación.":"Revisa los datos enviados e intenta nuevamente.")</p><a asp-controller="Home" asp-action="Index">Volver al inicio</a>

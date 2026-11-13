@@ -1,5 +1,5 @@
 @model ReferenciasPagina
-@{ ViewData["Title"]=Model.Tipo.ToString(); }
+@{ ViewData["Title"]=Model.Tipo==TipoReferencia.Categorias?"Categorías":Model.Tipo.ToString(); }
 <h1>@ViewData["Title"]</h1>
 <p><a asp-controller="Administracion" asp-action="Index">Administración</a> · <a asp-action="Crear" class="btn btn-primary">Crear registro</a></p>
 <div class="table-responsive"><table class="table"><thead><tr><th>Nombre</th><th>Estado / tipo</th><th>Acciones</th></tr></thead><tbody>

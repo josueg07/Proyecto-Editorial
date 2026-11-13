@@ -49,41 +49,9 @@ public class ForgotPasswordModel : PageModel
         public string Email { get; set; } = default!;
     }
 
-    public async Task<IActionResult> OnPostAsync()
+    public Task<IActionResult> OnPostAsync()
     {
-        if (ModelState.IsValid)
-        {
-            var user = await _userManager.FindByEmailAsync(Input.Email);
-            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-            {
-                // Don't reveal that the user does not exist or is not confirmed
-                return RedirectToPage("./ForgotPasswordConfirmation");
-            }
-
-            // For more information on how to enable account confirmation and password reset please
-            // visit https://go.microsoft.com/fwlink/?LinkID=532713
-            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ResetPassword",
-                pageHandler: null,
-                values: new { area = "Identity", code },
-                protocol: Request.Scheme)!;
-
-            var storedEmail = await _userManager.GetEmailAsync(user);
-            if (string.IsNullOrEmpty(storedEmail))
-            {
-                throw new InvalidOperationException("Users must have an email.");
-            }
-
-            await _emailSender.SendEmailAsync(
-                storedEmail,
-                "Reset Password",
-                $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-            return RedirectToPage("./ForgotPasswordConfirmation");
-        }
-
-        return Page();
+        ModelState.AddModelError(string.Empty,"El correo no está configurado. No se envió ningún mensaje. Contacta al responsable del entorno académico.");
+        return Task.FromResult<IActionResult>(Page());
     }
 }

@@ -29,10 +29,32 @@ QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddErrorDescriber<PlataformaEditorial.Web.Localizacion.ErroresIdentityEspanol>();
+builder.Services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender,PlataformaEditorial.Web.Localizacion.CorreoNoConfigurado>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.Compras.UnidadCompra>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.Compras.CarritoService>();
+builder.Services.AddScoped<PlataformaEditorial.Web.Models.Servicios.Compras.PedidosService>();
+builder.Services.AddLocalization();
+builder.Services.AddControllersWithViews(options=>
+{
+    options.ModelMetadataDetailsProviders.Add(new PlataformaEditorial.Web.Localizacion.ValidacionEspanol());
+    var m=options.ModelBindingMessageProvider;
+    m.SetAttemptedValueIsInvalidAccessor((valor,campo)=>$"El valor de {campo} no es válido.");
+    m.SetValueIsInvalidAccessor(valor=>"El valor no es válido.");
+    m.SetValueMustBeANumberAccessor(campo=>$"El campo {campo} debe ser numérico.");
+    m.SetValueMustNotBeNullAccessor(campo=>$"El campo {campo} es obligatorio.");
+    m.SetMissingBindRequiredValueAccessor(campo=>$"Falta el campo {campo}.");
+    m.SetNonPropertyAttemptedValueIsInvalidAccessor(valor=>"El valor no es válido.");
+    m.SetNonPropertyUnknownValueIsInvalidAccessor(()=>"El valor no es válido.");
+    m.SetNonPropertyValueMustBeANumberAccessor(()=>"El valor debe ser numérico.");
+    m.SetUnknownValueIsInvalidAccessor(campo=>$"El valor de {campo} no es válido.");
+    m.SetMissingKeyOrValueAccessor(()=>"Falta un valor obligatorio.");
+    m.SetMissingRequestBodyRequiredValueAccessor(()=>"Faltan los datos del formulario.");
+}).AddDataAnnotationsLocalization();
 
 var app = builder.Build();
+app.UseExceptionHandler("/Home/Error");
 
 // Crear automáticamente los roles del sistema
 using (var scope = app.Services.CreateScope())
@@ -72,11 +94,12 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+app.UseRequestLocalization(new RequestLocalizationOptions().SetDefaultCulture("es-GT").AddSupportedCultures("es-GT").AddSupportedUICultures("es-GT"));
+app.UseStatusCodePagesWithReExecute("/Errores/Estado/{0}");
 app.UseHttpsRedirection();
 app.UseRouting();
 

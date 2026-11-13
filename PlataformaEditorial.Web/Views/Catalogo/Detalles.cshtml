@@ -15,10 +15,18 @@
     </div>
 </div>
 <h2 class="h4 mt-4">Presentaciones disponibles</h2>
+<p>Precios académicos de demostración, antes de IVA.</p>
 @if(Model.tblPresentacionLibros.Count==0) { <p class="alert alert-info">Sin presentaciones registradas.</p> }
 else
 {
-    <div class="table-responsive"><table class="table"><thead><tr><th>Formato</th><th>ISBN</th><th>Precio base (antes de IVA)</th><th>Existencias</th></tr></thead><tbody>
-    @foreach(var p in Model.tblPresentacionLibros) { <tr><td>@p.IDFormatoNavigation.NombreFormato @(p.IDFormatoNavigation.EsDigital?"(digital)":"")</td><td>@p.isbn</td><td>Q @p.PrecioBase.ToString("N2")</td><td>@(p.Existencias.HasValue?p.Existencias.Value.ToString():"Sin dato")</td></tr> }
+    <div class="table-responsive"><table class="table"><thead><tr><th>Formato</th><th>ISBN</th><th>Precio base (antes de IVA)</th><th>Existencias</th><th>Compra</th></tr></thead><tbody>
+    @foreach(var p in Model.tblPresentacionLibros) { <tr><td>@p.IDFormatoNavigation.NombreFormato @(p.IDFormatoNavigation.EsDigital?"(digital)":"")</td><td>@p.isbn</td><td>Q @p.PrecioBase.ToString("N2")</td><td>@(p.Existencias.HasValue?p.Existencias.Value.ToString():"Sin dato")</td><td>
+        @if(User.IsInRole("ClienteMinorista") || User.IsInRole("ClienteInstitucional"))
+        {
+            @if(p.IDFormatoNavigation.EsDigital || p.Existencias>0) { <form method="post" asp-controller="Carrito" asp-action="Agregar"><input type="hidden" name="PresentacionId" value="@p.IDPresentacion" /><label class="visually-hidden" for="compra-@p.IDPresentacion">Cantidad</label><input id="compra-@p.IDPresentacion" type="number" name="Cantidad" value="1" min="1" max="100000" class="form-control mb-1" /><button class="btn btn-primary btn-sm">Agregar al carrito</button></form> }
+            else { <span>Sin existencias</span> }
+        }
+        else if(User.Identity?.IsAuthenticated!=true) { <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@($"/Catalogo/Detalles/{Model.IDLibro}")">Inicia sesión para comprar</a> }
+        </td></tr> }
     </tbody></table></div>
 }

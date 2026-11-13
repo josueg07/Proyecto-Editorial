@@ -1,6 +1,7 @@
 @model CatalogoPagina
 @{ ViewData["Title"]="Catálogo bibliográfico"; }
 <h1>@ViewData["Title"]</h1>
+<p class="alert alert-info">Precios e inventario de demostración académica. Importes en quetzales antes de IVA.</p>
 <form method="get" asp-action="Index" class="row g-3 mb-4">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="col-md-6"><label for="Texto" class="form-label">Título, autor, ISBN o editorial</label><input id="Texto" name="Texto" value="@Model.Filtro.Texto" maxlength="200" class="form-control" /></div>

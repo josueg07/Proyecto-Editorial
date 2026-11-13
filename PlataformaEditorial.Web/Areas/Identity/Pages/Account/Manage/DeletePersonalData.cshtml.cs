@@ -61,7 +61,7 @@ public class DeletePersonalDataModel : PageModel
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
-            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            return NotFound("No se pudo encontrar la cuenta.");
         }
 
         RequirePassword = await _userManager.HasPasswordAsync(user);
@@ -73,7 +73,7 @@ public class DeletePersonalDataModel : PageModel
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
-            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            return NotFound("No se pudo encontrar la cuenta.");
         }
 
         RequirePassword = await _userManager.HasPasswordAsync(user);
@@ -81,7 +81,7 @@ public class DeletePersonalDataModel : PageModel
         {
             if (!await _userManager.CheckPasswordAsync(user, Input.Password))
             {
-                ModelState.AddModelError(string.Empty, "Incorrect password.");
+                ModelState.AddModelError(string.Empty, "La contraseña no es correcta.");
                 return Page();
             }
         }

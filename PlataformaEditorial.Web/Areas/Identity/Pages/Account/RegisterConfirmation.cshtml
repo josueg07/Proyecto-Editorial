@@ -1,23 +1,4 @@
 @page
 @model RegisterConfirmationModel
-@{
-    ViewData["Title"] = "Confirmación de registro";
-}
-
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-<p>
-    This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-</p>
-    }
-    else
-    {
-<p>
-        Por favor revisa tu email para confirmar tu cuenta.
-</p>
-    }
-}
-
+@{ViewData["Title"]="Registro recibido";}
+<h1>@ViewData["Title"]</h1><p>El correo electrónico no está configurado. No se envió ningún mensaje.</p><p>La cuenta necesita confirmación antes de iniciar sesión. En este entorno académico, solicita al responsable que la confirme mediante la herramienta local de Identity indicada en el README.</p>
