@@ -34,13 +34,13 @@
                 </div>
                 <div>
                     <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Olvidaste tu contraseña?</a>
+                        <a id="forgot-password" asp-page="./ForgotPassword">¿Olvidaste tu contraseña?</a>
                     </p>
                     <p>
                         <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrarse como nuevo usuario</a>
                     </p>
                     <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Reenviar confirmación de email</a>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Reenviar confirmación de correo electrónico</a>
                     </p>
                 </div>
             </form>
@@ -54,10 +54,7 @@
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
                     <div>
-                        <p>
-                            No hay servicios externos de autenticación configurados. Consulta este <a href="https://go.microsoft.com/fwlink/?LinkID=532715">artículo
-                            sobre la configuración de accesos externos</a>.
-                        </p>
+                        <p>No hay otros servicios de acceso disponibles.</p>
                     </div>
                 }
                 else

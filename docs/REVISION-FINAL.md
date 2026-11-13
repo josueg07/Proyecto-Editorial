@@ -199,3 +199,11 @@ La siguiente lista corresponde a archivos creados o modificados respecto al esta
 No se añadió una dependencia de compras: Data Protection, MVC e Identity pertenecen a la plataforma ya utilizada. La herramienta local referencia el proyecto existente. QuestPDF ya era dependencia de RF-04. SQL Server Express y los paquetes de NuGet existentes siguen siendo necesarios.
 
 Los únicos puntos fuera de la verificación automatizada son la instalación completa en otra computadora, el proveedor real de correo, el cobro electrónico, la distribución autorizada de archivos digitales y una prueba de carga concurrente. La revisión visual y la publicación Git se informan según el resultado real del cierre, sin asumirlas por tener el código compilado. La publicación, si se consigue, se hace únicamente en `feature/carrito-pedidos`, sin merge a `main`.
+
+## Cierre verificado después de la recuperación
+
+Se repitieron la compilación completa y las 39 pruebas después de retomar el trabajo. Resultado: 0 errores, 0 advertencias y todas las pruebas aprobadas. Se comprobó que `CalculoPedido.cs`, las entidades generadas y los servicios/controladores de RF-04 no cambiaron. La base conserva las 19 tablas de negocio y las 7 de Identity, 23 libros y 29 presentaciones, con IVA 12 %.
+
+La revisión visual se reintentó satisfactoriamente mediante el navegador integrado. Se comprobaron Inicio, menú público desplegable, catálogo, búsqueda de Fahrenheit con un resultado, detalle con ISBN/stock y acceso a compras, formulario de inicio de sesión, validaciones obligatorias y página 404 en español. Se encontraron caracteres de BOM mal decodificados en dos parciales; se corrigieron y se añadieron aserciones de regresión. Los flujos autenticados se comprobaron mediante las pruebas HTTP/SQL, sin iniciar sesión con contraseñas personales durante esta revisión.
+
+El código, README, inventario y scripts se guardaron en commits descriptivos y se publicaron en `origin/feature/carrito-pedidos`. No se hizo merge a `main` ni se eliminaron ramas. El reinicio y el bloqueo posterior del navegador no se dieron por superados por suposición: se retomó desde el estado real de archivos/Git y se repitieron las verificaciones.
