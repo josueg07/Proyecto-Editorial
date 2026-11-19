@@ -1,6 +1,8 @@
 ﻿-- Fuentes bibliográficas: docs/FUENTES-LIBROS.csv. Verificadas el 13/11/2026.
 -- Precios en quetzales e inventario FICTICIOS para el proyecto, siempre antes de IVA.
 -- Solo INSERT. No repone stock al repetir ni sobrescribe precios/datos existentes.
+-- La imagen predeterminada es LOCAL y viaja en wwwroot dentro del ZIP.
+-- Portadas editoriales pendientes de permiso: docs/REVISION-PORTADAS.md.
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
 IF DB_NAME()<>N'EditorialDB' THROW 50001,'Seleccione EditorialDB.',1;
@@ -73,6 +75,10 @@ SELECT d.Electronico,d.Precio,NULL,p.IDLibro,@Digital FROM @Digitales d JOIN tbl
 WHERE NOT EXISTS(SELECT 1 FROM tblPresentacionLibro x WHERE x.isbn=d.Electronico OR x.IDLibro=p.IDLibro AND x.IDFormato=@Digital);
 COMMIT;
 SELECT COUNT(*) EdicionesImpresasVerificadas FROM tblPresentacionLibro p JOIN @Libros l ON l.ISBN=p.isbn;
+-- Mostrar las asociaciones efectivas sin sobrescribir portadas previamente asignadas.
+SELECT b.Titulo,p.isbn,b.portadaURL FROM tblLibro b
+JOIN tblPresentacionLibro p ON p.IDLibro=b.IDLibro JOIN @Libros l ON l.ISBN=p.isbn
+ORDER BY b.Titulo;
 END TRY
 BEGIN CATCH
     IF @@TRANCOUNT>0 ROLLBACK;

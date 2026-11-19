@@ -133,6 +133,8 @@ Ejemplo: subtotal Q305 y 15 unidades. Volumen: Q15.25. Minorista: IVA Q34.77, **
 
 Las fuentes y las instrucciones para portadas autorizadas están en [docs/PORTADAS-Y-FUENTES.md](docs/PORTADAS-Y-FUENTES.md) y [docs/FUENTES-LIBROS.csv](docs/FUENTES-LIBROS.csv). Se usa una imagen predeterminada; no se distribuyen portadas ni textos de libros sin permiso.
 
+La [revisión de portadas del 19/11/2026](docs/REVISION-PORTADAS.md) documenta los 20 títulos, ISBN, fuentes y permisos pendientes. Todos usan un recurso local que funciona sin Internet; las 20 portadas editoriales siguen pendientes. `scripts/asociar-portadas-locales.sql` permite completar únicamente rutas vacías sin reemplazar asociaciones existentes.
+
 Las compras registran pedidos reales en SQL, pero no cobran pagos electrónicos. La entrega digital se coordina manualmente porque el esquema no almacena archivos ni licencias de distribución. No se implementan cancelaciones/devoluciones ni reposición automática de inventario; los estados avanzan en una dirección. El historial conserva cantidades, precios, descuentos e IVA del pedido, mientras el título/formato se obtiene de la presentación relacionada porque no existen columnas de descripción histórica.
 
 ## Verificación y documentación adicional
