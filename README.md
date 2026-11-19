@@ -1,4 +1,4 @@
-# Plataforma Editorial MVC
+﻿# Plataforma Editorial MVC
 
 Proyecto académico de Arquitectura de Sistemas, preparado para la entrega del 13 de noviembre de 2026. Solución existente: `PlataformaEditorial.slnx`; aplicación: `PlataformaEditorial.Web`. Rama de entrega: **`feature/carrito-pedidos`**, sin integración automática a `main`.
 
@@ -131,9 +131,9 @@ Ejemplo: subtotal Q305 y 15 unidades. Volumen: Q15.25. Minorista: IVA Q34.77, **
 
 `scripts/libros-reales.sql` contiene 20 libros reales, 20 ISBN impresos y tres ISBN digitales. Se ejecutó dos veces en el entorno local y se verificó la idempotencia. Los precios e inventarios son académicos, no ofertas reales. Cada edición impresa nueva comienza con 120 ejemplares; repetir el script no repone stock ni modifica precios.
 
-Las fuentes y las instrucciones para portadas autorizadas están en [docs/PORTADAS-Y-FUENTES.md](docs/PORTADAS-Y-FUENTES.md) y [docs/FUENTES-LIBROS.csv](docs/FUENTES-LIBROS.csv). Se usa una imagen predeterminada; no se distribuyen portadas ni textos de libros sin permiso.
+Las fuentes y las instrucciones para portadas autorizadas están en [docs/PORTADAS-Y-FUENTES.md](docs/PORTADAS-Y-FUENTES.md) y [docs/FUENTES-LIBROS.csv](docs/FUENTES-LIBROS.csv). Las 20 imágenes aportadas por el usuario están guardadas localmente en `wwwroot/images/portadas/` y asociadas por ISBN; no se descargaron imágenes para esta actualización.
 
-La [revisión de portadas del 19/11/2026](docs/REVISION-PORTADAS.md) documenta los 20 títulos, ISBN, fuentes y permisos pendientes. Todos usan un recurso local que funciona sin Internet; las 20 portadas editoriales siguen pendientes. `scripts/asociar-portadas-locales.sql` permite completar únicamente rutas vacías sin reemplazar asociaciones existentes.
+La [revisión de portadas del 19/11/2026](docs/REVISION-PORTADAS.md) documenta los 20 títulos, ISBN, archivos y resultados. Los 20 tienen portada local. `scripts/asociar-portadas-locales.sql` actualiza exclusivamente sus rutas de portada, incluso si ya existía otra ruta; el script inicial incluye las mismas asociaciones. Incluir toda la carpeta `wwwroot` en el ZIP. La comprobación reproducible está en `scripts/verificar-portadas.py`.
 
 Las compras registran pedidos reales en SQL, pero no cobran pagos electrónicos. La entrega digital se coordina manualmente porque el esquema no almacena archivos ni licencias de distribución. No se implementan cancelaciones/devoluciones ni reposición automática de inventario; los estados avanzan en una dirección. El historial conserva cantidades, precios, descuentos e IVA del pedido, mientras el título/formato se obtiene de la presentación relacionada porque no existen columnas de descripción histórica.
 

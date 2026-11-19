@@ -1,83 +1,87 @@
-﻿# Revisión de portadas locales — 19/11/2026
+﻿# Portadas locales asociadas — 19/11/2026
 
-## Resultado y alcance
+## Resultado
 
-**0 portadas editoriales descargadas; 20 pendientes de autorización verificable para incorporarlas al repositorio y al ZIP.** Los 20 títulos sí tienen una imagen predeterminada local válida. Esto permite mostrar el catálogo sin Internet, pero no equivale a completar las portadas de las ediciones. No se usaron portadas de otras ediciones, ni se cambiaron ISBN, ni se generaron imitaciones.
+**20 portadas JPG asociadas; 0 faltantes; 0 imágenes sin correspondencia por nombre de archivo.** Se utilizaron exclusivamente los archivos proporcionados por el usuario en `PlataformaEditorial.Web/wwwroot/images/portadas/`. No se consultó Internet ni se descargaron imágenes. No hubo despliegues ni push a GitHub.
 
-Se inspeccionaron `EditorialDbContext`, `tblLibro.portadaURL`, `tblPresentacionLibro.isbn`, el servicio y las vistas del catálogo y `scripts/libros-reales.sql`. La base existente contiene los 20 títulos de las fuentes bibliográficas más tres libros de demostración ajenos a esta revisión. Los 20 tenían `/images/sin-portada.svg`; no había JPG/WebP ni asociaciones de portadas correctas que reemplazar. No se eliminaron registros.
+Los 20 archivos se abrieron y decodificaron como JPEG con System.Drawing de Windows, conservando nombres, extensiones, dimensiones y bytes originales. Se comprobaron los ISBN exactos de los nombres contra las fuentes locales, los scripts y el catálogo. `PORTADAS-LIBROS.csv` registra título, ISBN, ruta, tamaño y SHA-256 de cada archivo. La fuente de las imágenes es el aporte local del usuario; los enlaces bibliográficos del CSV son los ya existentes, no nuevas consultas ni evidencia de licencia.
 
-La imagen compartida está en `PlataformaEditorial.Web/wwwroot/images/sin-portada.svg` (300 × 420, vectorial, 435 bytes). Es el recurso del proyecto, sin imágenes editoriales. No se crean 20 copias innecesarias del mismo marcador. La carpeta `wwwroot/images/portadas/` queda reservada en Git para imágenes autorizadas futuras.
+Se modificó exclusivamente `tblLibro.portadaURL` para los 20 libros. La primera ejecución actualizó 20 rutas; repetirla actualizó 0. No se cambiaron títulos, ISBN, precios, inventario, controladores, servicios, vistas, autenticación ni otras funcionalidades. Los tres libros ficticios preexistentes conservan la imagen predeterminada y quedan fuera de estos 20.
 
-## Fuentes y condiciones consultadas
+**Alcance de la correspondencia:** se asocia por el ISBN del nombre del archivo, tal como se solicitó. Eso no certifica la edición impresa representada en la imagen. En la revisión visual, `9788445006771.jpg` (Fahrenheit 451) muestra texto en inglés y “60th Anniversary Edition”; conviene revisar manualmente si representa la edición española registrada. Se conservó y se asoció el archivo entregado, sin sustituirlo ni cambiar el ISBN. No faltan archivos para completar las asociaciones técnicas.
 
-Se consultaron páginas y condiciones oficiales, sin scraping ni descargas masivas. Las fichas bibliográficas son las registradas previamente en `FUENTES-LIBROS.csv`; no se afirma haber cotejado visualmente una imagen que no se descargó. El ISBN y el título de las 20 filas sí se cotejaron contra SQL Server y el script inicial.
+## Inventario
 
-- **P — Minotauro / Planeta:** [Condiciones de uso, apartado 7](https://www.planetadelibros.com/condiciones-de-uso). No se encontró una licencia de reproducción y redistribución de las portadas aplicable a esta entrega.
-- **R — Debolsillo / Penguin:** [Aviso legal, propiedad intelectual y reserva de derechos](https://www.penguinlibros.com/es/content/2-aviso-legal). Contempla acceso y, en su caso, descarga personal no comercial; no concede una licencia para incluir las imágenes en el repositorio o redistribuir el ZIP.
-- **A — Alianza Editorial:** [Aviso legal, uso de la información](https://www.alianzaeditorial.es/aviso-legal/). Permite visualizar, descargar e imprimir material con condiciones, conservando avisos. No se encontró autorización expresa para redistribuir esas imágenes dentro de esta entrega.
+Todas las rutas usan `/images/portadas/{nombre exacto}`. La misma portada del libro aparece en sus presentaciones impresas y digitales, porque el esquema guarda la ruta en el libro, no en cada presentación.
 
-[Open Library Covers API](https://openlibrary.org/dev/docs/api/covers) ofrece acceso técnico a imágenes y pide enlazar sus servidores para páginas públicas; esa documentación no acredita una licencia de redistribución para cada portada. No se utilizó como sustituto de un permiso del titular. La autorización para recursos promocionales estadounidenses de Penguin no se extendió a estas ediciones españolas.
+| Título | ISBN impreso | Archivo en `wwwroot/images/portadas/` | Resultado |
+|---|---|---|---|
+| Cien años de soledad | `9788497592208` | `9788497592208.jpg` | Asociada, HTTP 200 |
+| Fahrenheit 451 | `9788445006771` | `9788445006771.jpg` | Asociada, HTTP 200 |
+| Crónicas marcianas | `9788445006740` | `9788445006740.jpg` | Asociada, HTTP 200 |
+| El hombre ilustrado | `9788445006801` | `9788445006801.jpg` | Asociada, HTTP 200 |
+| Soy leyenda | `9788445006764` | `9788445006764.jpg` | Asociada, HTTP 200 |
+| El hobbit | `9788445012802` | `9788445012802.jpg` | Asociada, HTTP 200 |
+| La Comunidad del Anillo | `9788445013557` | `9788445013557.jpg` | Asociada, HTTP 200 |
+| Las Dos Torres | `9788445013564` | `9788445013564.jpg` | Asociada, HTTP 200 |
+| El Silmarillion | `9788445014493` | `9788445014493.jpg` | Asociada, HTTP 200 |
+| El fin de la eternidad | `9788497933537` | `9788497933537.jpg` | Asociada, HTTP 200 |
+| La metamorfosis | `9788420651361` | `9788420651361.jpg` | Asociada, HTTP 200 |
+| El retrato de Dorian Gray | `9788420654935` | `9788420654935.jpg` | Asociada, HTTP 200 |
+| Drácula | `9788491819103` | `9788491819103.jpg` | Asociada, HTTP 200 |
+| La Isla del Tesoro | `9788420651385` | `9788420651385.jpg` | Asociada, HTTP 200 |
+| Frankenstein | `9788413623689` | `9788413623689.jpg` | Asociada, HTTP 200 |
+| Orgullo y prejuicio | `9791370093068` | `9791370093068.jpg` | Asociada, HTTP 200 |
+| Alicia en el País de las Maravillas | `9788420664286` | `9788420664286.jpg` | Asociada, HTTP 200 |
+| Mujercitas | `9788413628448` | `9788413628448.jpg` | Asociada, HTTP 200 |
+| Odisea | `9788420674629` | `9788420674629.jpg` | Asociada, HTTP 200 |
+| Ilíada | `9788420678344` | `9788420678344.jpg` | Asociada, HTTP 200 |
 
-Esta revisión registra los permisos encontrados, sin afirmar que un uso académico sea necesariamente ilícito ni que estas obras carezcan de posibles excepciones legales. Se aplicó la condición del encargo: descargar únicamente imágenes con autorización verificable y conservar la predeterminada en los demás casos. Que el texto de una obra clásica sea de dominio público no demuestra que la cubierta de una edición moderna también lo sea.
+## Reproducir en otra computadora
 
-## Inventario de los 20 títulos
+Incluir la carpeta completa `PlataformaEditorial.Web/wwwroot/` al comprimir el proyecto, junto con scripts y documentación. Preparar SQL Server/Identity/tablas existentes según README; no recrear una base que ya contiene datos.
 
-Todas las rutas actuales son `/images/sin-portada.svg`. La fuente de cada fila identifica la edición, no una licencia de su imagen. El CSV `PORTADAS-LIBROS.csv` contiene las rutas completas, los enlaces a las condiciones y el estado por libro.
+Para una instalación nueva, después de crear el esquema, ejecutar:
 
-| Título | ISBN impreso | Archivo local | Fuente / permiso | Resultado |
-|---|---|---|---|---|
-| Cien años de soledad | `9788497592208` | `sin-portada.svg` | [Ficha](https://www.penguinlibros.com/es/literatura-contemporanea/35974-libro-cien-anos-de-soledad-9788497592208) / R | Pendiente; predeterminada local |
-| Fahrenheit 451 | `9788445006771` | `sin-portada.svg` | [Ficha](https://www.planetadelibros.com/libro-fahrenheit-451/298205) / P | Pendiente; predeterminada local |
-| Crónicas marcianas | `9788445006740` | `sin-portada.svg` | [Ficha](https://www.planetadelibros.com/libro-cronicas-marcianas/298202) / P | Pendiente; predeterminada local |
-| El hombre ilustrado | `9788445006801` | `sin-portada.svg` | [Ficha](https://www.planetadelibros.com/libro-el-hombre-ilustrado/298208) / P | Pendiente; predeterminada local |
-| Soy leyenda | `9788445006764` | `sin-portada.svg` | [Ficha](https://www.planetadelibros.com/libro-soy-leyenda/298204) / P | Pendiente; predeterminada local |
-| El hobbit | `9788445012802` | `sin-portada.svg` | [Ficha](https://www.planetadelibros.com/libro-el-hobbit/356019?soporte=347061) / P | Pendiente; predeterminada local |
-| La Comunidad del Anillo | `9788445013557` | `sin-portada.svg` | [Ficha](https://www.planetadelibros.com/libro-el-senor-de-los-anillos-1-la-comunidad-del-anillo/356020?soporte=353810) / P | Pendiente; predeterminada local |
-| Las Dos Torres | `9788445013564` | `sin-portada.svg` | [Ficha](https://www.planetadelibros.com/libro-el-senor-de-los-anillos-n-0203-las-dos-torres-ne/324395?soporte=353811) / P | Pendiente; predeterminada local |
-| El Silmarillion | `9788445014493` | `sin-portada.svg` | [Ficha](https://www.planetadelibros.com/libro-el-silmarillion-edicion-revisada/349855?soporte=362733) / P | Pendiente; predeterminada local |
-| El fin de la eternidad | `9788497933537` | `sin-portada.svg` | [Ficha](https://www.penguinlibros.com/es/libros-de-ciencia-ficcion/35161-libro-el-fin-de-la-eternidad-9788497933537) / R | Pendiente; predeterminada local |
-| La metamorfosis | `9788420651361` | `sin-portada.svg` | [Ficha](https://www.alianzaeditorial.es/libro/bibliotecas-de-autor/la-metamorfosis-franz-kafka-9788420651361/) / A | Pendiente; predeterminada local |
-| El retrato de Dorian Gray | `9788420654935` | `sin-portada.svg` | [Ficha](https://www.alianzaeditorial.es/libro/bibliotecas-de-autor/el-retrato-de-dorian-gray-oscar-wilde-9788420654935/) / A | Pendiente; predeterminada local |
-| Drácula | `9788491819103` | `sin-portada.svg` | [Ficha](https://www.alianzaeditorial.es/libro/literatura/dracula-bram-stoker-9788491819103/) / A | Pendiente; predeterminada local |
-| La Isla del Tesoro | `9788420651385` | `sin-portada.svg` | [Ficha](https://www.alianzaeditorial.es/libro/bibliotecas-de-autor/la-isla-del-tesoro-robert-louis-stevenson-9788420651385/) / A | Pendiente; predeterminada local |
-| Frankenstein | `9788413623689` | `sin-portada.svg` | [Ficha](https://www.alianzaeditorial.es/libro/13-20/frankenstein-mary-w-shelley-9788413623689/) / A | Pendiente; predeterminada local |
-| Orgullo y prejuicio | `9791370093068` | `sin-portada.svg` | [Ficha](https://alianzaeditorial.es/libro/alianza-clasicos/orgullo-y-prejuicio-jane-austen-9791370093068/) / A | Pendiente; predeterminada local |
-| Alicia en el País de las Maravillas | `9788420664286` | `sin-portada.svg` | [Ficha](https://alianzaeditorial.es/libro/literatura/alicia-en-el-pais-de-las-maravillas-lewis-carroll-9788420664286/) / A | Pendiente; predeterminada local |
-| Mujercitas | `9788413628448` | `sin-portada.svg` | [Ficha](https://www.alianzaeditorial.es/libro/13-20/mujercitas-louisa-may-alcott-9788413628448/) / A | Pendiente; predeterminada local |
-| Odisea | `9788420674629` | `sin-portada.svg` | [Ficha](https://www.alianzaeditorial.es/libro/clasicos-de-grecia-y-roma/odisea-homero-9788420674629/) / A | Pendiente; predeterminada local |
-| Ilíada | `9788420678344` | `sin-portada.svg` | [Ficha](https://www.alianzaeditorial.es/libro/clasicos-de-grecia-y-roma/iliada-homero-9788420678344/) / A | Pendiente; predeterminada local |
+```powershell
+sqlcmd -S '.\SQLEXPRESS' -d EditorialDB -E -C -b -f 65001 -i scripts/libros-reales.sql
+```
 
-## Reproducir las asociaciones en SQL Server
+El script inicial incluye las 20 rutas explícitas, las usa al insertar libros y actualiza solo `portadaURL` de los libros existentes identificados por ISBN. Conserva el comportamiento anterior de insertar datos bibliográficos faltantes, sin reponer existencias ni cambiar precios existentes.
 
-La instalación nueva ya asigna la imagen local predeterminada mediante `scripts/libros-reales.sql`. Ahora el script también lista las 20 asociaciones al finalizar. No requiere Internet para mostrar esas imágenes.
-
-Para revisar una base existente y completar exclusivamente rutas vacías de estos 20 libros:
+Si los 20 libros ya están cargados y solo se desean asociar las imágenes:
 
 ```powershell
 sqlcmd -S '.\SQLEXPRESS' -d EditorialDB -E -C -b -f 65001 -i scripts/asociar-portadas-locales.sql
 ```
 
-El script empareja por ISBN y título, valida que estén los 20 registros y utiliza una transacción. No cambia una ruta no vacía, ni precios, inventario, ISBN, usuarios u otras tablas. Una ruta personalizada se informa como conservada; no se certifica automáticamente que sea correcta. Puede repetirse. En la base revisada se esperan **0 actualizaciones**, porque las 20 rutas ya apuntan al marcador local.
+El segundo script valida los 20 ISBN/títulos antes de actualizar, utiliza transacción y se puede repetir. Sustituye la ruta anterior de esos 20 libros por la ruta local explícita; no modifica otros registros. SQL no inspecciona el disco: llevar también las imágenes y ejecutar la comprobación de archivos. No cargar textos acentuados por tuberías; usar los archivos UTF-8 con `-f 65001 -i`.
 
-Cuando se consiga una portada autorizada: conservar la evidencia del permiso (incluida su redistribución), comprobar la edición exacta y guardar `{ISBN}.jpg` o `{ISBN}.webp` en `wwwroot/images/portadas/`. Usar aproximadamente 400 × 600 píxeles, conservar la proporción y los avisos de derechos, sin recortar ni rediseñar. Optimizar solo dentro de las condiciones del permiso. Registrar fuente, permiso, dimensiones y hash en el inventario y asociar `/images/portadas/{ISBN}.jpg` mediante **Libros → Editar**, usando el mecanismo existente. Actualizar también el script inicial con esa ruta concreta y comprobar que el archivo viaje con el proyecto antes de ejecutar SQL. No asociar nombres de archivos que todavía no existen.
+## Verificaciones
 
-## Comprobación
+- Compilación: `dotnet build PlataformaEditorial.slnx --no-restore`, 0 errores y 0 advertencias.
+- Suite existente: `dotnet test PlataformaEditorial.slnx --no-build --no-restore`, 39 correctas, 0 fallidas y 0 omitidas.
+- Script inicial ejecutado sobre los datos existentes dentro de una transacción exterior revertida: correcto, con las 20 rutas. No se realizó una instalación completa en una segunda computadora.
+- Asociación SQL ejecutada dos veces: 20 y 0 actualizaciones respectivamente.
+- Comprobación automatizada: 20 archivos con hashes originales, rutas coincidentes en CSV y ambos scripts SQL; 43 páginas HTTP 200 (inicio, dos páginas de catálogo, 20 búsquedas por ISBN y 20 detalles), 74 referencias locales. Cada una de las 20 imágenes se sirvió con bytes idénticos al archivo local.
+- Revisión visual en navegador de inicio, catálogo, búsqueda y detalles: las imágenes se muestran sin iconos rotos. La revisión visual fue representativa; el recorrido HTTP cubrió los 20 libros.
+- No se desconectó la red de Windows: se verificó que las referencias de portada son locales y que sus archivos están incluidos. Restaurar NuGet en otra máquina puede requerir Internet inicialmente; las portadas no.
 
-- `dotnet build PlataformaEditorial.slnx --no-restore`: correcto, 0 errores y 0 advertencias.
-- `dotnet test PlataformaEditorial.slnx --no-build --no-restore`: 39 correctas, 0 fallidas y 0 omitidas. La suite existente usa transacciones revertidas para sus escenarios SQL; no se añadieron pruebas que dupliquen la implementación.
-- Comprobación HTTP de 43 páginas con respuesta 200: inicio, dos páginas del catálogo, 20 búsquedas por ISBN y 20 detalles. Las 74 referencias a imágenes de esas páginas son locales y sus archivos existen. Se comprobó título/ISBN/ruta por cada libro contra SQL, el CSV y el archivo físico. La respuesta HTTP de la imagen coincide byte a byte con el archivo del proyecto.
-- Revisión visual en navegador: inicio, catálogo, resultado por ISBN y detalles muestran el marcador local. La comprobación automatizada cubrió los 20 libros; la inspección visual utilizó páginas representativas.
-- `scripts/asociar-portadas-locales.sql` ejecutado dos veces: 0 rutas modificadas en ambas; las 20 asociaciones ya eran válidas para el marcador. No se ejecutaron migraciones ni cambios de esquema.
-- `scripts/libros-reales.sql` comprobado sobre los datos existentes dentro de una transacción exterior revertida: listó las 20 rutas. Se ejecutó desde archivo UTF-8 con `sqlcmd -f 65001 -i`, como indica README. Un intento previo enviando el texto por una tubería produjo un conflicto por codificación y se revirtió; no usar esa tubería para cargar textos acentuados. No se comprobó una carga desde cero en una base nueva.
-- `git check-ignore` no excluye el marcador, `.gitkeep`, ni nombres JPG/WebP basados en ISBN en la carpeta reservada. El marcador ya estaba versionado; no existen 20 imágenes JPG/WebP autorizadas para incorporar.
-- `git diff --check`: correcto.
+Prueba reproducible de archivos, hashes y coherencia de scripts (Python 3.10+, sin paquetes externos):
 
-SHA-256 del recurso local verificado: `5475b3536be7ca7b2c17dd95cd5ddfb14de19131e25690031a8432936f3ed118`.
+```powershell
+python scripts/verificar-portadas.py
+```
 
-No se desactivó la conexión de Windows: se comprobó que todas las referencias de portada apuntan al servidor local y que sus bytes están incluidos en el proyecto. Esto acredita la independencia de Internet de estas imágenes, no una prueba de instalación completa sin conexión.
+Para incluir las comprobaciones HTTP, ejecutar primero la aplicación y después el verificador en otra terminal:
 
-Archivos creados: `docs/PORTADAS-LIBROS.csv`, este informe, `scripts/asociar-portadas-locales.sql` y `PlataformaEditorial.Web/wwwroot/images/portadas/.gitkeep`. Archivos modificados: `README.md`, `docs/PORTADAS-Y-FUENTES.md` y `scripts/libros-reales.sql` (comentarios y listado final de asociaciones). Se conserva el mecanismo MVC existente: SQL guarda la ruta en `tblLibro.portadaURL`, el servicio la entrega y las vistas la muestran; no hubo cambios en controladores, servicios ni vistas.
+```powershell
+dotnet run --project PlataformaEditorial.Web --launch-profile http
+python scripts/verificar-portadas.py --base-url http://localhost:5172
+```
 
-Para repetir la revisión manual: ejecutar la aplicación con `dotnet run --project PlataformaEditorial.Web --launch-profile http`, visitar `http://localhost:5172/`, `/Catalogo` y la segunda página, buscar cada ISBN del inventario y abrir su detalle. Usar el enlace del resultado para obtener el ID real de cada instalación; no asumir que los IDs coinciden entre computadoras. Debe verse la imagen predeterminada sin iconos de imagen rota. Ejecutar los dos comandos de compilación/pruebas anteriores y el script de asociaciones para comprobar la base.
+## Git y entrega
 
-Para la entrega en ZIP deben incluirse `wwwroot`, los scripts y la documentación. La base SQL no viaja automáticamente con el código: configurar SQL Server y cargar los scripts según README. Restaurar NuGet puede necesitar conexión la primera vez; las imágenes predeterminadas no la necesitan. No se ha verificado una instalación completa en una segunda computadora.
+Las imágenes JPG no están excluidas por `.gitignore`. Se incorporan las 20 imágenes originales a Git en `feature/carrito-pedidos`. Se verifica un ZIP temporal generado desde Git: contiene las 20 rutas y sus hashes originales. No se incluye una base de datos SQL dentro del ZIP del código ni se publica el repositorio remoto.
+
+Archivos modificados: `scripts/libros-reales.sql`, `scripts/asociar-portadas-locales.sql`, `docs/PORTADAS-LIBROS.csv`, este informe, `docs/PORTADAS-Y-FUENTES.md` y `README.md`. Archivos incorporados: las 20 imágenes JPG y `scripts/verificar-portadas.py`. No se modificó la estructura de la base de datos. El mecanismo MVC se conserva: SQL guarda la ruta, el servicio la entrega y las vistas la muestran.
